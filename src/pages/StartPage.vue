@@ -86,10 +86,10 @@
                     v-for="item in serviceCategories"
                     :key="item"
                 ><div class="card-icon-prop">
-                  <v-img src="../assets/icon1.png" :width="57" aspect-ratio="1/1"></v-img>
-                </div>
+                    <v-img :src=item.src :width="57" aspect-ratio="1/1"></v-img>
+                  </div>
                   <div>
-                    <v-card-title>{{ item.title }}</v-card-title>
+                    <v-title>{{ item.title }}</v-title>
                   </div>
                   <v-spacer/>
                   <v-card-actions>
@@ -100,10 +100,7 @@
               <v-btn class="category-btn">Все электронные услуги</v-btn>
           </section>
 
-          <v-slide-group
-              show-arrows
-
-          >
+          <v-slide-group show-arrows>
             <v-slide-group-item
                 v-for="item in serviceSlides"
                 :key="item"
@@ -115,8 +112,13 @@
                   :color="item.color"
                   @click="toggle"
               >
-                <v-card-title>{{ item.title }}</v-card-title>
-                <v-img :src="item.img" :width="57" aspect-ratio="1/1"></v-img>
+                <div>
+                  <v-card-title>{{ item.title }}</v-card-title>
+                </div>
+                <div>
+                  <v-img :src=item.src :width="57" aspect-ratio="1/1"></v-img>
+                </div>
+
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
@@ -132,12 +134,12 @@
                 :key="item"
                 class="news-card"
                 elevation="0"
+                min-width="285"
             >
               <v-img
-                  src="../assets/news-card1.png"
-                  height="345"
-              />
+                  :src=item.src
 
+              />
               <div class="news-card-text">
                 <v-title>{{ item.title }}</v-title>
                 <p>{{ item.date }}</p>
@@ -164,29 +166,29 @@ export default {
         {title:"Ведомства", icon:"mdi-information"}
       ],
       serviceCategories: [
-        {title:"Пенсия, пособия и льготы"},
-        {title:"Семья и дети"},
-        {title:"Лицензии, справки аккредитации"},
-        {title:"Транспорт и вождение"},
-        {title:"Квартира, строительство и земля"},
-        {title:"Информация, связь и реклама"}
+        {title:"Пенсия, пособия и льготы", src: require("../assets/icon1.png")},
+        {title:"Семья и дети", src: require("../assets/icon1.png")},
+        {title:"Лицензии, справки аккредитации", src: require("../assets/icon1.png")},
+        {title:"Транспорт и вождение", src: require("../assets/icon1.png")},
+        {title:"Квартира, строительство и земля", src: require("../assets/icon1.png")},
+        {title:"Информация, связь и реклама", src: require("../assets/icon1.png")}
       ],
       mainCarousel: [
         {title: "Поделитесь своим мнением о лечении COVID-19", text: "Предложение медицинских работников по организации оказания медицинской помощи пациентам с COVID-19", icon: "mdi-information"},
         {title: "Как получить выплату на ребенка от 3 до 7 лет включительно", text: "Узнайте кому положена выплата", icon: "mdi-information"},
       ],
       serviceSlides: [
-        {title:"Запись в детский сад", src:"../assets/icon1.png", color:"green"},
-        {title:"Проверка очереди в детский сад", src:"../assets/icon1.png", color:"green"},
-        {title:"Сервисы ФССП", src:"../assets/icon1.png", color:"green"},
-        {title:"", src:"../assets/icon1.png", color:"green"},
-        {title:"", src:"../assets/icon1.png", color:"green"},
+        {title:"Запись в детский сад", src: require("../assets/icon1.png"), color:"green"},
+        {title:"Проверка очереди в детский сад", src: require("../assets/icon1.png"), color:"green"},
+        {title:"Сервисы ФССП", src: require("../assets/icon1.png"), color:"green"},
+        {title:"", src: require("../assets/icon1.png"), color:"green"},
+        {title:"", src: require("../assets/icon1.png"), color:"green"},
       ],
       news: [
-        {title:"Льготная ипотека для ИТ-специалистов", date:"24 мая 2022", src: "https://cdn.vuetifyjs.com/images/cards/docks.jpg"},
-        {title:"Новые условия льготной ипотеки по ставке до 9%", date:"24 мая 2022", src: "src/assets/news-card2.png"},
-        {title:"Обжалование штрафов в приложении \"Госуслуги Авто\"", date:"24 мая 2022", src: "../assets/news-card3.png"},
-        {title:"Как оформить кредитные каникулы в сложной жизненной ситуации", date:"24 мая 2022", src: "../assets/news-card4.png"},
+        {title:"Отключение Instagram в России", date:"24 мая 2022", src: require('../assets/news-card1.png')},
+        {title:"В один клик: как решать жилищные вопросы, не выходя из дома", date:"24 мая 2022", src: require('../assets/news-card2.png')},
+        {title:"Что делать при лёгком течении коронавируса или ОРВИ", date:"24 мая 2022", src: require('../assets/news-card3.png')},
+        {title:"Выплата на детей от 3 до 7 лет: вопросы и ответы", date:"24 мая 2022", src: require('../assets/news-card4.png')},
       ],
       src1: "../assets/news-card2.png"
     }
@@ -316,6 +318,11 @@ ul, li {
 .card-prop {
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
+}
+
+.card-prop > *:not(:first-child) {
+  padding: 0 8px 0 8px;
 }
 
 .search-section > .v-card {
@@ -338,11 +345,6 @@ ul, li {
   margin: auto;
 }
 
-.slider {
-  display: flex;
-  justify-content: center;
-  background-color: inherit;
-}
 .slide {
  width: 385px;
   height: 190px;
@@ -366,8 +368,6 @@ ul, li {
 .news-card > div {
   padding: 12px;
 }
-
-
 
 .news-card-text .v-card-title {
   font-size: 40px;
