@@ -11,6 +11,7 @@
               <v-card-title>Все электронные услуги</v-card-title>
               <v-card-text>Электронные услуги регионального портала госуслуг Республики Крым</v-card-text>
             </div>
+            <v-spacer/>
             <div>
               <v-card-actions>
                 <v-btn icon="mdi-chevron-right"></v-btn>
@@ -67,38 +68,37 @@
     <div class="container">
       <div class=" wrapper-2">
         <div class="search-item">
-        <div class="search-section">
-          <v-card width="1165" height="95">
-            <v-select
-                label="Поиск по услугам и ведомствам"
-                variant="underlined"
-                append-icon="mdi-magnify"
-            ></v-select>
-          </v-card>
-        </div>
-
-        <section>
-          <h2 class="section-title">Популярные категории электронных услуг</h2>
-          <div  class="popular-category">
-            <v-card
-                class="card-prop popular-category-card"
-                v-for="item in serviceCategories"
-                :key="item"
-            ><div class="card-icon-prop">
-              <v-img src="../assets/icon1.png" :width="57" aspect-ratio="1/1"></v-img>
-            </div>
-              <div>
-                <v-card-title>{{ item.title }}</v-card-title>
-              </div>
-              <div>
-                <v-card-actions>
-                  <v-btn icon="mdi-chevron-right"></v-btn>
-                </v-card-actions>
-              </div>
+          <div class="search-section">
+            <v-card height="95">
+              <v-select
+                  label="Поиск по услугам и ведомствам"
+                  variant="underlined"
+                  append-icon="mdi-magnify"
+              ></v-select>
             </v-card>
-            <v-btn>Все электронные услуги</v-btn>
           </div>
-        </section>
+
+          <section>
+              <h2 class="section-title">Популярные категории электронных услуг</h2>
+              <div class="popular-category">
+                <v-card
+                    class="card-prop popular-category-card"
+                    v-for="item in serviceCategories"
+                    :key="item"
+                ><div class="card-icon-prop">
+                  <v-img src="../assets/icon1.png" :width="57" aspect-ratio="1/1"></v-img>
+                </div>
+                  <div>
+                    <v-card-title>{{ item.title }}</v-card-title>
+                  </div>
+                  <v-spacer/>
+                  <v-card-actions>
+                    <v-btn icon="mdi-chevron-right"></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </div>
+              <v-btn class="category-btn">Все электронные услуги</v-btn>
+          </section>
 
           <v-slide-group
               show-arrows
@@ -122,7 +122,7 @@
           </v-slide-group>
 
 
-        <article>
+          <article>
           <div>
             <h2>Новости портала госуслуг Республики Крым</h2>
           </div>
@@ -131,17 +131,15 @@
                 v-for="item in news"
                 :key="item"
                 class="news-card"
+                elevation="0"
             >
               <v-img
+                  src="../assets/news-card1.png"
                   height="345"
-                  cover
-              ></v-img>
-              <div class="news-card-text">
-                <div>
-                  <v-title>{{ item.title }}</v-title>
-                </div>
+              />
 
-                <v-spacer></v-spacer>
+              <div class="news-card-text">
+                <v-title>{{ item.title }}</v-title>
                 <p>{{ item.date }}</p>
               </div>
             </v-card>
@@ -178,18 +176,19 @@ export default {
         {title: "Как получить выплату на ребенка от 3 до 7 лет включительно", text: "Узнайте кому положена выплата", icon: "mdi-information"},
       ],
       serviceSlides: [
-        {title:"Запись в детский сад", img:"../assets/icon1.png", color:"green"},
-        {title:"Проверка очереди в детский сад", img:"../assets/icon1.png", color:"green"},
-        {title:"Сервисы ФССП", img:"../assets/icon1.png", color:"green"},
-        {title:"", img:"../assets/icon1.png", color:"green"},
-        {title:"", img:"../assets/icon1.png", color:"green"},
+        {title:"Запись в детский сад", src:"../assets/icon1.png", color:"green"},
+        {title:"Проверка очереди в детский сад", src:"../assets/icon1.png", color:"green"},
+        {title:"Сервисы ФССП", src:"../assets/icon1.png", color:"green"},
+        {title:"", src:"../assets/icon1.png", color:"green"},
+        {title:"", src:"../assets/icon1.png", color:"green"},
       ],
       news: [
-        {title:"Льготная ипотека для ИТ-специалистов", date:"24 мая 2022"},
-        {title:"Новые условия льготной ипотеки по ставке до 9%", date:"24 мая 2022"},
-        {title:"Обжалование штрафов в приложении \"Госуслуги Авто\"", date:"24 мая 2022"},
-        {title:"Как оформить кредитные каникулы в сложной жизненной ситуации", date:"24 мая 2022"},
+        {title:"Льготная ипотека для ИТ-специалистов", date:"24 мая 2022", src: "https://cdn.vuetifyjs.com/images/cards/docks.jpg"},
+        {title:"Новые условия льготной ипотеки по ставке до 9%", date:"24 мая 2022", src: "src/assets/news-card2.png"},
+        {title:"Обжалование штрафов в приложении \"Госуслуги Авто\"", date:"24 мая 2022", src: "../assets/news-card3.png"},
+        {title:"Как оформить кредитные каникулы в сложной жизненной ситуации", date:"24 мая 2022", src: "../assets/news-card4.png"},
       ],
+      src1: "../assets/news-card2.png"
     }
   }
 }
@@ -198,7 +197,7 @@ export default {
 <style>
 
 .v-main {
-  background-color: #f7faff;
+  background-color: #fafcff;
 }
 
 ul, li {
@@ -216,11 +215,11 @@ ul, li {
 
 .v-card-title, .v-carousel h2 {
   font-size: 18px;
-  padding: 16px;
+  padding: 0 16px 0 16px;
 }
 .v-card-text, .v-carousel p{
   font-size: 12px;
-  padding: 0 16px 16px 16px;
+  padding: 0 16px 0px 16px;
 }
 
 .v-list {
@@ -231,9 +230,6 @@ ul, li {
 
 .v-list-item {
   font-size: 20px;
-}
-.v-list-item-title {
-  font-size: 14px;
 }
 
 .top-container{
@@ -253,7 +249,7 @@ ul, li {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 2fr;
-  width: 1248px
+  width: 1248px;
 }
 
 .item-1 {
@@ -274,6 +270,7 @@ ul, li {
 
 .item-1, .item-3 {
   margin: 24px;
+
 }
 
 .item-2, .item-3 {
@@ -296,8 +293,20 @@ ul, li {
   width: 1248px;
 }
 
-.main-item {
+.wrapper-2 > * {
   grid-column: 1 / 13;
+}
+
+.search-item {
+  grid-column: 1 / 13;
+}
+
+.search-section {
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 0 30px 0 30px;
+  top: -40px;
 }
 
 .service-list{
@@ -307,44 +316,26 @@ ul, li {
 .card-prop {
   display: flex;
   align-items: center;
-  height: 112px;
-}
-
-.card-prop > div:last-of-type {
-  margin-left: auto;
-}
-
-.search-section {
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  top: -40px;
 }
 
 .search-section > .v-card {
   display: flex;
   align-items: center;
-
   padding: 10px;
 }
 
-.section-title{
-  display: block;
-  padding: 0 0 0 24px;
-}
-
 .popular-category {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 1248px;
-  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .popular-category-card{
   margin: 10px;
-  width: 590px;
-  height: 110px;
+}
+
+.category-btn {
+  display: block;
+  margin: auto;
 }
 
 .slider {
@@ -369,6 +360,7 @@ ul, li {
   width: 282px;
   height: 480px;
   padding: 0;
+  background-color: inherit;
 }
 
 .news-card > div {
