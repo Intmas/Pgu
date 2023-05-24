@@ -82,6 +82,9 @@ export default {
 
 .header-2 .v-btn:not(:first-child){
   background-color: #e4ecfd;
+  border-radius: 6px;
+  padding: 10px 20px 10px 20px;
+  align-content: center;
 }
 
 .header-bar div > * {

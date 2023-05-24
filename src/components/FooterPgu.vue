@@ -11,16 +11,17 @@
         </div>
         <div class="center-footer">
           <div>
-            <h4>Техническая поддержка портала</h4>
+            <div>
+              <h4>Техническая поддержка портала</h4>
+            </div>
             <div>
               <p>осуществляется с 09:00 до 18:00 (ПН-ЧТ), с 09:00 до 16:45 (ПТ), кроме выходных и праздничных дней. </p>
               <p>Обеденный перерыв с 13:00 до 13:45.</p>
             </div>
             <div>
-              <p>Электронная почта: support@gosuslugi82.ru </p>
-              <p>Телефон: +7 (978) 0000-910 </p>
+              <p>Электронная почта:  <b>support@gosuslugi82.ru </b></p>
+              <p>Телефон: <b>+7 (978) 0000-910 </b> </p>
             </div>
-
           </div>
 
         </div>
@@ -68,6 +69,10 @@ export default {
 
 .center-footer > * {
   margin: 10px 0 10px 0;
+}
+
+.center-footer > div > div {
+  padding: 8px 0 8px 0;
 }
 
 .right-footer{
