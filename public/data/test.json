@@ -1,0 +1,6 @@
+{
+  "name" : "groupname",
+  "type" : "GROUP",
+  "description" : "Group Description",
+  "active" : true
+}

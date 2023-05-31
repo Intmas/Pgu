@@ -31,7 +31,7 @@
         <v-img src="../assets/pgu-logo.png" :width="160"></v-img>
       </div>
       <div>
-        <v-btn icon="mdi-magnify"></v-btn>
+        <v-btn icon="mdi-magnify" style="size: 30px"></v-btn>
         <v-btn>
           Войти
         </v-btn>

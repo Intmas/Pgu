@@ -3,19 +3,17 @@
     <div class="top-container">
       <div class="wrapper">
         <div class="item-1">
-          <v-card class="card-prop">
-            <div class="card-icon-prop">
-              <v-img src="../assets/icon1.png" :width="57" aspect-ratio="1/1"></v-img>
-            </div>
+          <v-card class="menu-card" to="/">
             <div>
+              <v-img :src="serviceIcon" :width="57" aspect-ratio="1/1"></v-img>
+            </div>
+            <div class="menu-card-text">
               <v-card-title>Все электронные услуги</v-card-title>
               <v-card-text>Электронные услуги регионального портала госуслуг Республики Крым</v-card-text>
             </div>
             <v-spacer/>
             <div>
-              <v-card-actions>
-                <v-btn icon="mdi-chevron-right"></v-btn>
-              </v-card-actions>
+              <v-icon icon="mdi-chevron-right" size="30"></v-icon>
             </div>
           </v-card>
         </div>
@@ -28,7 +26,7 @@
               :continuous="false"
               :show-arrows="false"
               hide-delimiter-background
-              class="carousel "
+              class="carousel"
           >
 
             <v-carousel-item
@@ -36,12 +34,12 @@
                 :key="item"
             >
               <v-sheet
-                  color="#3e73f2"
+                  style="background-color: inherit"
                   height="100%"
               >
                 <div class="carousel">
-                  <v-icon :icon="item.icon" size="70px" class="card-icon-prop"></v-icon>
-                  <div>
+                  <v-img :src="item.src" width="60"></v-img>
+                  <div class="carousel-text">
                     <h2>{{item.title}}</h2>
                     <p>{{item.text}}</p>
                   </div>
@@ -52,14 +50,18 @@
         </div>
 
         <div class="item-3">
-          <v-list>
+          <v-list class="ml-4">
             <v-list-item
                 v-for="item in mainList"
                 :key="item.title"
+                :items="searchList"
                 :title="item.title"
-                :prepend-icon="item.icon"
                 class="service-list"
-            ></v-list-item>
+            >
+              <template v-slot:prepend>
+                <v-img :src=item.src :width="32" class="mr-8"></v-img>
+              </template>
+            </v-list-item>
           </v-list>
         </div>
       </div>
@@ -69,12 +71,15 @@
       <div class=" wrapper-2">
         <div class="search-item">
           <div class="search-section">
-            <v-card height="95">
-              <v-select
+            <v-card height="165">
+              <v-autocomplete
+                  @keyup="getSearch($event.target.value)"
                   label="Поиск по услугам и ведомствам"
-                  variant="underlined"
+                  variant="filled"
+                  menu-icon=""
                   append-icon="mdi-magnify"
-              ></v-select>
+                  :items="searchList"
+              ></v-autocomplete>
             </v-card>
           </div>
 
@@ -82,6 +87,7 @@
             <h2 class="section-title">Популярные категории электронных услуг</h2>
             <div class="popular-category">
               <v-card
+                  to="/"
                   class="card-prop popular-category-card"
                   v-for="item in serviceCategories"
                   :key="item"
@@ -90,12 +96,10 @@
                   <v-img :src=item.src :width="57" aspect-ratio="1/1"></v-img>
                 </div>
                 <div>
-                  <v-title>{{ item.title }}</v-title>
+                  <v-card-title>{{ item.title }}</v-card-title>
                 </div>
                 <v-spacer/>
-                <v-card-actions>
-                  <v-btn icon="mdi-chevron-right"></v-btn>
-                </v-card-actions>
+                  <v-icon icon="mdi-chevron-right"></v-icon>
               </v-card>
             </div>
             <div class="category-btn">
@@ -113,11 +117,11 @@
               <v-card
                   class="slide"
                   theme="dark"
-                  :color="item.color"
+                  :style="getGradient(item.color1, item.color2)"
                   @click="toggle"
               >
                 <div>
-                  <v-text><b>{{ item.title }}</b></v-text>
+                  <p><b>{{ item.title }}</b></p>
                 </div>
                 <v-spacer/>
                 <div>
@@ -127,7 +131,6 @@
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
-
 
           <article>
           <div class="news news-title">
@@ -142,6 +145,7 @@
                 class="news-card"
                 elevation="0"
                 min-width="285"
+                to="/"
             >
               <v-img
                   :src=item.src
@@ -149,7 +153,7 @@
               />
               <div >
                 <div class="news-card-text">
-                  <v-title>{{ item.title }}</v-title>
+                  <h2>{{ item.title }}</h2>
                 </div>
                 <div class="news-card-text">
                   <p>{{ item.date }}</p>
@@ -167,37 +171,41 @@
 
 <script>
 
+import request from "@/services/RequestServiceMock";
+
 export default {
   name: 'StartPage',
   data() {
     return {
+      searchList: "",
+      serviceIcon: require("../assets/icon1.png"),
       mainList: [
-        {title:"Выбор услуги", icon:"mdi-information"},
-        {title:"Жизненные ситуации", icon:"mdi-information"},
-        {title:"Категории услуг", icon:"mdi-information"},
-        {title:"Ведомства", icon:"mdi-information"}
+        {title:"Выбор услуги", src: require("../assets/book-icon.svg")},
+        {title:"Жизненные ситуации", src: require("../assets/home-accept-icon.svg")},
+        {title:"Категории услуг", src: require("../assets/category-icon.svg")},
+        {title:"Ведомства",src: require("../assets/department-icon.svg")}
       ],
       serviceCategories: [
-        {title:"Пенсия, пособия и льготы", src: require("../assets/icon1.png")},
-        {title:"Семья и дети", src: require("../assets/icon1.png")},
-        {title:"Лицензии, справки аккредитации", src: require("../assets/icon1.png")},
-        {title:"Транспорт и вождение", src: require("../assets/icon1.png")},
-        {title:"Квартира, строительство и земля", src: require("../assets/icon1.png")},
-        {title:"Информация, связь и реклама", src: require("../assets/icon1.png")}
+        {title:"Пенсия, пособия и льготы", src: require("../assets/duty.svg")},
+        {title:"Семья и дети", src: require("../assets/fine.svg")},
+        {title:"Лицензии, справки аккредитации", src: require("../assets/jud.svg")},
+        {title:"Транспорт и вождение", src: require("../assets/tax.svg")},
+        {title:"Квартира, строительство и земля", src: require("../assets/file.svg")},
+        {title:"Информация, связь и реклама", src: require("../assets/uin.svg")}
       ],
       mainCarousel: [
-        {title: "Поделитесь своим мнением о лечении COVID-19", text: "Предложение медицинских работников по организации оказания медицинской помощи пациентам с COVID-19", icon: "mdi-information"},
-        {title: "Как получить выплату на ребенка от 3 до 7 лет включительно", text: "Узнайте кому положена выплата", icon: "mdi-information"},
+        {title: "Поделитесь своим мнением о лечении COVID-19", text: "Предложение медицинских работников по организации оказания медицинской помощи пациентам с COVID-19", src: require("../assets/medchat.png")},
+        {title: "Как получить выплату на ребенка от 3 до 7 лет включительно", text: "Узнайте кому положена выплата", src: require("../assets/child.png")},
       ],
       serviceSlides: [
-        {title:"Запись в детский сад", src: require("../assets/slide-icon1.svg"), color:"green"},
-        {title:"Проверка очереди в детский сад", src: require("../assets/slide-icon1.svg"), color:"green"},
-        {title:"Сервисы ФССП", src: require("../assets/slide-icon1.svg"), color:"green"},
-        {title:"Процедура внесудебного банкротства гражданина", src: require("../assets/slide-icon1.svg"), color:"green"},
-        {title:"Проверить налоговую задолженность", src: require("../assets/slide-icon1.svg"), color:"green"},
-        {title:"Информация о мерах поддержки в период коронавируса", src: require("../assets/slide-icon1.svg"), color:"green"},
-        {title:"Услуги и сервисы на Едином портале госуслуг", src: require("../assets/slide-icon1.svg"), color:"green"},
-        {title:"Обжалуйте решение контрольного органа", src: require("../assets/slide-icon1.svg"), color:"green"},
+        {title:"Запись в детский сад", src: require("../assets/child.svg"), color1:"#9c53fb", color2:"#67baaa"},
+        {title:"Проверка очереди в детский сад", src: require("../assets/slide-icon1.svg"), color1:"#70d1ba", color2:"#5cc2ae"},
+        {title:"Сервисы ФССП", src: require("../assets/scales.svg"), color1:"#5084ff", color2:"#9a54fc"},
+        {title:"Процедура внесудебного банкротства гражданина", src: require("../assets/carousel4.svg"), color1:"#9c53fb", color2:"#67baaa"},
+        {title:"Проверить налоговую задолженность", src: require("../assets/carousel5.svg"), color1:"#70d1ba", color2:"#5cc2ae"},
+        {title:"Информация о мерах поддержки в период коронавируса", src: require("../assets/carousel6.svg"), color1:"#5084ff", color2:"#9a54fc"},
+        {title:"Услуги и сервисы на Едином портале госуслуг", src: require("../assets/carousel7.svg"), color1:"#9c53fb", color2:"#67baaa"},
+        {title:"Обжалуйте решение контрольного органа", src: require("../assets/carousel8.svg"), color1:"#70d1ba", color2:"#5cc2ae"},
       ],
       news: [
         {title:"Отключение Instagram в России", date:"24 мая 2022", src: require('../assets/news-card1.png')},
@@ -207,6 +215,21 @@ export default {
       ],
       src1: "../assets/news-card2.png"
     }
+  },
+  methods: {
+    getSearch(text) {
+      request.getSearchData(text)
+          .then(response => {
+             console.log('response.data:', response.data);
+             this.searchList = response.data.favour['result']
+
+          })
+          .catch(e => console.warn('CATCH:',e.name, e.message))
+          .finally(()=> console.log('request done', this.searchList));
+    },
+    getGradient(color1, color2) {
+      return "background: linear-gradient(130deg," + color1 + " 0%," + color2 + " 80%)"
+    }
   }
 }
 </script>
@@ -215,10 +238,6 @@ export default {
 
 .v-main {
   background-color: #fafcff;
-}
-
-ul, li {
-  list-style-type: none;
 }
 
 .v-btn {
@@ -232,11 +251,11 @@ ul, li {
 
 .v-card-title, .v-carousel h2 {
   font-size: 18px;
-  padding: 0 16px 0 16px;
+  padding: 0 0 0 40px;
 }
 .v-card-text, .v-carousel p{
   font-size: 12px;
-  padding: 0 16px 0px 16px;
+  padding: 0 0 0 40px;
 }
 
 .v-list {
@@ -254,6 +273,7 @@ ul, li {
   justify-content: center;
   width: 100%;
   background-color: #3e73f2;
+  background: linear-gradient(90deg, rgba(84,140,246,1) 0%, rgba(39,90,239,1) 100%);
 }
 
 .container {
@@ -264,7 +284,7 @@ ul, li {
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: 1fr 1.7fr;
   width: 1248px;
 }
 
@@ -301,6 +321,13 @@ ul, li {
 .carousel > * {
   margin: 20px 0px 0px 0px;
 }
+.carousel-text h2{
+  padding: 0 0 30px 32px;
+}
+
+.carousel-text p{
+  padding: 0 0 0px 32px;
+}
 
 .wrapper-2 {
   display: grid;
@@ -331,11 +358,16 @@ ul, li {
 .card-prop {
   display: flex;
   align-items: center;
-  flex-wrap: nowrap;
 }
 
-.card-prop > *:not(:first-child) {
-  padding: 0 8px 0 8px;
+.menu-card {
+  display: flex;
+  align-items: center;
+  padding: 28px;
+}
+
+menu-card-text > *{
+  padding-left: 40px;
 }
 
 .search-section > .v-card {
@@ -350,7 +382,7 @@ ul, li {
 }
 
 .popular-category-card{
-  margin: 10px;
+  margin: 15px;
   min-width: 150px;
 }
 
