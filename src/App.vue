@@ -21,7 +21,4 @@ export default {
 
 <style>
 
-.v-application {
-  font-size: 14px;
-}
 </style>

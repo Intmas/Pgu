@@ -75,9 +75,9 @@
               <v-autocomplete
                   @keyup="getSearch($event.target.value)"
                   label="Поиск по услугам и ведомствам"
-                  variant="filled"
                   menu-icon=""
-                  append-icon="mdi-magnify"
+                  append-inner-icon="mdi-magnify"
+                  auto-select-first
                   :items="searchList"
               ></v-autocomplete>
             </v-card>
@@ -91,7 +91,6 @@
                   class="card-prop popular-category-card"
                   v-for="item in serviceCategories"
                   :key="item"
-                  elevation="4"
               ><div class="card-icon-prop">
                   <v-img :src=item.src :width="57" aspect-ratio="1/1"></v-img>
                 </div>
@@ -108,7 +107,10 @@
 
           </section>
 
-          <v-slide-group show-arrows class="slider">
+          <v-slide-group
+              show-arrows
+              class="slider"
+          >
             <v-slide-group-item
                 v-for="item in serviceSlides"
                 :key="item"
@@ -133,10 +135,10 @@
           </v-slide-group>
 
           <article>
-          <div class="news news-title">
-            <h2>Новости портала госуслуг Республики Крым</h2>
+          <div class="news">
+            <h2 class="section-title">Новости портала госуслуг Республики Крым</h2>
             <v-spacer/>
-            <v-btn color="#0d4cd3" variant="text">все новости</v-btn>
+            <v-btn color="#0d4cd3" class="section-title" variant="text">все новости</v-btn>
           </div>
           <div class="news">
             <v-card
@@ -149,7 +151,6 @@
             >
               <v-img
                   :src=item.src
-
               />
               <div >
                 <div class="news-card-text">
@@ -198,7 +199,11 @@ export default {
         {title: "Как получить выплату на ребенка от 3 до 7 лет включительно", text: "Узнайте кому положена выплата", src: require("../assets/child.png")},
       ],
       serviceSlides: [
-        {title:"Запись в детский сад", src: require("../assets/child.svg"), color1:"#9c53fb", color2:"#67baaa"},
+        {title:"Запись в детский сад",
+          src: require("../assets/child.svg"),
+          color1:"#9c53fb",
+          color2:"#67baaa"
+        },
         {title:"Проверка очереди в детский сад", src: require("../assets/slide-icon1.svg"), color1:"#70d1ba", color2:"#5cc2ae"},
         {title:"Сервисы ФССП", src: require("../assets/scales.svg"), color1:"#5084ff", color2:"#9a54fc"},
         {title:"Процедура внесудебного банкротства гражданина", src: require("../assets/carousel4.svg"), color1:"#9c53fb", color2:"#67baaa"},
@@ -236,8 +241,14 @@ export default {
 
 <style>
 
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 .v-main {
+  font-family: 'Roboto', sans-serif;
   background-color: #fafcff;
+  font-weight: 400;
+  font-size: 16px;
 }
 
 .v-btn {
@@ -266,6 +277,27 @@ export default {
 
 .v-list-item {
   font-size: 20px;
+}
+
+.v-field__outline{
+  background-color: inherit;
+  display: none;
+}
+
+.v-field__overlay {
+  border-radius: 5px;
+}
+
+.v-autocomplete .v-field .v-field__append-inner > .v-icon {
+  -webkit-margin-start: 4px;
+  margin-inline-start: 4px;
+  transition: 0s cubic-bezier(0.0, 0, 0.2, 1);
+}
+
+.v-autocomplete .v-field .v-field__append-inner > .v-icon {
+  -webkit-margin-start: 4px;
+  margin-inline-start: 4px;
+  transition: 0s cubic-bezier(0.0, 0, 0.2, 1);
 }
 
 .top-container{
@@ -322,11 +354,17 @@ export default {
   margin: 20px 0px 0px 0px;
 }
 .carousel-text h2{
-  padding: 0 0 30px 32px;
+  font-size: 20px;
+  padding: 0 0 16px 32px;
 }
 
 .carousel-text p{
+  font-size: 14px;
   padding: 0 0 0px 32px;
+}
+
+.v-carousel__controls {
+  justify-content: left;
 }
 
 .wrapper-2 {
@@ -358,15 +396,25 @@ export default {
 .card-prop {
   display: flex;
   align-items: center;
+  box-shadow: 0 0 20px #e8e8e8;
+}
+
+.card-prop .v-card-title {
+  padding-left: 20px;
 }
 
 .menu-card {
   display: flex;
   align-items: center;
-  padding: 28px;
+  padding: 25px;
 }
 
-menu-card-text > *{
+.menu-card-text .v-card-title {
+  font-weight: 400;
+  padding-bottom: 10px;
+}
+
+.menu-card-text > *{
   padding-left: 40px;
 }
 
@@ -395,19 +443,22 @@ menu-card-text > *{
 .category-btn > * {
   color: #2341ce;
   align-content: center;
+  border-radius: 10px;
   padding: 24px;
 }
 
 .slider {
-  margin: 40px auto 60px auto;
+  margin: 0px auto 60px auto;
 }
 
 .slide {
   display: flex;
   width: 385px;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 400;
   height: 190px;
   border-radius: 15px;
+  padding: 24px;
   margin: 15px;
 }
 
@@ -424,18 +475,17 @@ menu-card-text > *{
 }
 
 .slide > div *:first-child{
-  padding-right: 12px;
+  padding-right: 16px;
 }
 
 .news {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 40px 0 40px 0;
+
 }
 
 .news-title {
-  margin-left: 12px;
   margin-right: 12px;
 }
 
@@ -450,14 +500,24 @@ menu-card-text > *{
   margin: 20px 0 20px 0;
 }
 
-.news-card-text .v-card-title {
-  font-size: 40px;
+.news-card-text p {
   color: gray;
+  font-size: 14px;
+}
+
+.news-card-text h2{
+  font-weight: 400;
+  font-size: 18px;
 }
 
 .news-card p {
   display: block;
   color: gray;
+}
+
+.section-title {
+  margin: 40px 15px 40px 15px;
+  font-weight: 400;
 }
 
 @media screen and (max-width: 700px){
@@ -485,5 +545,7 @@ menu-card-text > *{
     grid-template-columns: 1fr;
   }
 }
+
+
 
 </style>
