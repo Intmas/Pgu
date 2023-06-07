@@ -11,13 +11,20 @@
                   <v-btn prepend-icon="mdi-eye-outline">
                     Версия для слабовидящих
                   </v-btn>
-                  <select class="select-field">
-                    <option
-                      v-for="lang in languageList"
-                      :key="lang"
-                      :value="language = lang"
-                    > {{lang}}</option>
-                  </select>
+                  <v-menu location="bottom">
+                    <template v-slot:activator="{ props }">
+                      <v-btn v-bind="props">
+                        <v-img width="22" :src="language.src" class="pr-1"></v-img>
+                        {{language.lang}}
+                        <v-icon icon="mdi-chevron-down"></v-icon>
+                      </v-btn>
+                    </template>
+                    <v-list>
+                      <v-list-item v-for="lang in languageList" :key="lang" @click="language = lang">
+                        <v-list-item-title>{{ lang.lang }}</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
                 </div>
     </div>
   </v-app-bar>
@@ -47,11 +54,14 @@ export default {
     return {
       drawer: false,
       languageList: [
-        "RUS",
-        "UKR",
-        "CHR",
+        { lang:"RUS", src:require("../assets/RUS.svg") },
+        { lang:"UKR", src:require("../assets/UKR.svg") },
+        { lang:"CHR", src:require("../assets/CHR.svg") },
       ],
-      language: "RUS"
+      language: {
+        lang: "RUS",
+        src:require("../assets/RUS.svg")
+      }
     }
   }
 }
@@ -66,10 +76,10 @@ export default {
   text-transform: none;
   letter-spacing: inherit;
   color: #2341ce;
+  font-weight: 400;
 }
 
 .header-1 {
-  font-weight: 300;
   font-size: 14px;
   background-color: #e4ecfd;
 

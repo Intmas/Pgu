@@ -13,40 +13,48 @@
             </div>
             <v-spacer/>
             <div>
-              <v-icon icon="mdi-chevron-right" size="30"></v-icon>
+              <v-icon icon="mdi-chevron-right" color="#0d4cd3" size="30"></v-icon>
             </div>
           </v-card>
         </div>
 
         <div class="item-2">
           <v-divider :thickness="1" class="border-opacity-100" color="#94b1f3"></v-divider>
-          <v-carousel
-              cycle
-              height="200"
-              :continuous="false"
-              :show-arrows="false"
-              hide-delimiter-background
-              class="carousel"
-          >
-
-            <v-carousel-item
+          <v-window v-model="windowCurr">
+            <v-window-item
                 v-for="item in mainCarousel"
-                :key="item"
+                :key="`card-${item}`"
             >
-              <v-sheet
-                  style="background-color: inherit"
-                  height="100%"
-              >
-                <div class="carousel">
+              <div class="window">
+                <div>
                   <v-img :src="item.src" width="60"></v-img>
-                  <div class="carousel-text">
-                    <h2>{{item.title}}</h2>
-                    <p>{{item.text}}</p>
-                  </div>
                 </div>
-              </v-sheet>
-            </v-carousel-item>
-          </v-carousel>
+                <div class="window-text">
+                  <h2>{{item.title}}</h2>
+                  <p>{{item.text}}</p>
+                </div>
+              </div>
+            </v-window-item>
+          </v-window>
+          <v-card-actions>
+            <v-btn icon="mdi-chevron-left" @click="prev"></v-btn>
+            <v-item-group v-model="windowCurr">
+              <v-item
+                  v-for="n in mainCarousel.length"
+                  :key="`btn-${n}`"
+                  v-slot="{ isSelected, toggle }"
+                  :value="n-1"
+              >
+                  <v-icon
+                      :icon="isSelected ? 'mdi-circle' : 'mdi-circle-outline'"
+                      size="10"
+                      class="pa-2"
+                      @click="toggle"
+                  ></v-icon>
+              </v-item>
+            </v-item-group>
+            <v-btn icon="mdi-chevron-right"  @click="next"></v-btn>
+          </v-card-actions>
         </div>
 
         <div class="item-3">
@@ -197,6 +205,10 @@ export default {
       mainCarousel: [
         {title: "Поделитесь своим мнением о лечении COVID-19", text: "Предложение медицинских работников по организации оказания медицинской помощи пациентам с COVID-19", src: require("../assets/medchat.png")},
         {title: "Как получить выплату на ребенка от 3 до 7 лет включительно", text: "Узнайте кому положена выплата", src: require("../assets/child.png")},
+        {title: "Бесплатное горячее питание для учащихся младших классов", text: "Оценить качество предоставления бесплатного горячего питания для обучающихся по образовательным программам начального общего образования", src: require("../assets/hotfood.png")},
+        {title: "Страховые гарантии медикам и их близким", text: "Как получить единовременную выплату за смерть или вред здоровью", src: require("../assets/medhandshake.png")},
+        {title: "Как медикам пожаловаться на отсутствие доплат", text: "Заполните форму жалобы в Минздрав, чтобы там разобрались", src: require("../assets/rupor.png")},
+        {title: "Помощь при кризисной ситуации в семье", text: "Что делать и куда обращаться", src: require("../assets/motherhood.png")},
       ],
       serviceSlides: [
         {title:"Запись в детский сад",
@@ -218,7 +230,8 @@ export default {
         {title:"Что делать при лёгком течении коронавируса или ОРВИ", date:"24 мая 2022", src: require('../assets/news-card3.png')},
         {title:"Выплата на детей от 3 до 7 лет: вопросы и ответы", date:"24 мая 2022", src: require('../assets/news-card4.png')},
       ],
-      src1: "../assets/news-card2.png"
+      windowN: 3,
+      windowCurr: 0,
     }
   },
   methods: {
@@ -234,7 +247,18 @@ export default {
     },
     getGradient(color1, color2) {
       return "background: linear-gradient(130deg," + color1 + " 0%," + color2 + " 80%)"
-    }
+    },
+    next() {
+      this.windowCurr =
+          this.windowCurr + 1 > this.windowN ? 0 : this.windowCurr + 1
+    },
+    prev() {
+      this.windowCurr =
+          this.windowCurr - 1 < 0 ? this.windowN : this.windowCurr - 1
+    },
+  },
+  mounted() {
+    this.windowN = this.mainCarousel.length - 1
   }
 }
 </script>
@@ -260,11 +284,11 @@ export default {
   border-radius: 10px;
 }
 
-.v-card-title, .v-carousel h2 {
+.v-card-title {
   font-size: 18px;
   padding: 0 0 0 40px;
 }
-.v-card-text, .v-carousel p{
+.v-card-text {
   font-size: 12px;
   padding: 0 0 0 40px;
 }
@@ -288,18 +312,6 @@ export default {
   border-radius: 5px;
 }
 
-.v-autocomplete .v-field .v-field__append-inner > .v-icon {
-  -webkit-margin-start: 4px;
-  margin-inline-start: 4px;
-  transition: 0s cubic-bezier(0.0, 0, 0.2, 1);
-}
-
-.v-autocomplete .v-field .v-field__append-inner > .v-icon {
-  -webkit-margin-start: 4px;
-  margin-inline-start: 4px;
-  transition: 0s cubic-bezier(0.0, 0, 0.2, 1);
-}
-
 .top-container{
   display: flex;
   justify-content: center;
@@ -316,7 +328,7 @@ export default {
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1.7fr;
+  grid-template-rows: 1fr 1.4fr;
   width: 1248px;
 }
 
@@ -344,27 +356,24 @@ export default {
   color: white;
 }
 
-.carousel {
+.window{
   display: flex;
   align-items: center;
-  color: white;
+  min-height: 130px;
 }
 
-.carousel > * {
+.window > * {
   margin: 20px 0px 0px 0px;
 }
-.carousel-text h2{
+
+.window-text h2{
   font-size: 20px;
   padding: 0 0 16px 32px;
 }
 
-.carousel-text p{
+.window-text p{
   font-size: 14px;
   padding: 0 0 0px 32px;
-}
-
-.v-carousel__controls {
-  justify-content: left;
 }
 
 .wrapper-2 {
@@ -390,7 +399,7 @@ export default {
 }
 
 .service-list{
-  margin: 0px 0 20px 0;
+  margin: 15px 0 15px 0;
 }
 
 .card-prop {
@@ -410,7 +419,13 @@ export default {
 }
 
 .menu-card-text .v-card-title {
-  font-weight: 400;
+  font-weight: 500;
+  padding-bottom: 10px;
+}
+
+.menu-card-text .v-card-text {
+  font-weight: 200;
+  font-size: 14px;
   padding-bottom: 10px;
 }
 
