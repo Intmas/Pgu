@@ -6,7 +6,10 @@
   </v-navigation-drawer>
   <v-app-bar class="header-1" density="compact" :elevation="0">
     <div class="header-bar">
-                <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+                <v-app-bar-nav-icon
+                    @click="drawer = !drawer"
+                    icon="mdi-format-align-left"
+                />
                 <div class="select-lan">
                   <v-btn prepend-icon="mdi-eye-outline">
                     Версия для слабовидящих
@@ -31,15 +34,20 @@
 
   <v-app-bar class="header-2" :elevation="0">
     <div class="header-bar">
-      <div>
-        <v-img src="../assets/pgu-logo.png" :width="160"></v-img>
+      <div style="display: flex">
+        <v-app-bar-nav-icon
+            class="narrow-media"
+            @click="drawer = !drawer"
+            icon="mdi-format-align-left"
+        />
+        <v-img src="../assets/pgu-logo.png" :max-width="160"></v-img>
       </div>
-      <div>
-        <v-btn icon="mdi-magnify" style="size: 30px"></v-btn>
-        <v-btn>
+      <div class="btn-group">
+        <v-btn class="media" icon="mdi-magnify" style="size: 30px"></v-btn>
+        <v-btn class="narrow-btn">
           Войти
         </v-btn>
-        <v-btn>
+        <v-btn class="media">
           Регистрация
         </v-btn>
       </div>
@@ -95,6 +103,7 @@ export default {
 .header-2 .v-btn:not(:first-child) {
   background-color: #e4ecfd;
   border-radius: 6px;
+
   padding: 10px 20px 10px 20px;
   align-content: center;
 }
@@ -103,6 +112,10 @@ export default {
   margin: 5px 5px 5px 5px;
 }
 
+.btn-group {
+  display: flex;
+  align-items: center;
+}
 .v-field__input {
   width: 55px;
   height: 40px;
@@ -118,5 +131,40 @@ export default {
 
 .select-field {
   font-weight: 400;
+}
+
+.media {
+  display: block;
+}
+
+.narrow-media {
+  display: none;
+}
+
+@media screen and (max-width: 1360px){
+  .media {
+    display: none;
+  }
+
+  .narrow-media {
+    display: block;
+  }
+
+  .v-app-bar {
+    width: auto;
+  }
+
+  header {
+    top: 0 !important;
+    width: 100%;
+  }
+  .header-1 {
+    display: none;
+    top: 0;
+  }
+
+  .narrow-btn {
+    background-color: inherit !important;
+  }
 }
 </style>

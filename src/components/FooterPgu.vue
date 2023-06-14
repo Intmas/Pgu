@@ -95,4 +95,11 @@ export default {
   width: 1248px;
   margin: auto;
 }
+
+@media screen and (max-width: 1360px){
+  .wrapper {
+    display: none;
+  }
+}
+
 </style>

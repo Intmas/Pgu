@@ -3,18 +3,20 @@
     <div class="top-container">
       <div class="wrapper">
         <div class="item-1">
-          <v-card class="menu-card" to="/">
-            <div>
-              <v-img :src="serviceIcon" :width="57" aspect-ratio="1/1"></v-img>
+          <v-card to="/">
+            <div class="menu-card">
+              <div class="menu-card-icon">
+                <v-img :src="serviceIcon" style="padding-right: 15px" :height="57" aspect-ratio="1/1"/>
+                <div>
+                  <h2>Все электронные услуги </h2>
+                  <p>Электронные услуги регионального портала госуслуг Республики Крым</p>
+                </div>
+              </div>
+              <div>
+                <v-icon icon="mdi-chevron-right" color="#0d4cd3" size="30"></v-icon>
+              </div>
             </div>
-            <div class="menu-card-text">
-              <v-card-title>Все электронные услуги</v-card-title>
-              <v-card-text>Электронные услуги регионального портала госуслуг Республики Крым</v-card-text>
-            </div>
-            <v-spacer/>
-            <div>
-              <v-icon icon="mdi-chevron-right" color="#0d4cd3" size="30"></v-icon>
-            </div>
+
           </v-card>
         </div>
 
@@ -25,35 +27,41 @@
                 v-for="item in mainCarousel"
                 :key="`card-${item}`"
             >
-              <div class="window">
+              <v-card
+                elevation="0"
+                to="/"
+                class="window"
+              >
                 <div>
                   <v-img :src="item.src" width="60"></v-img>
                 </div>
                 <div class="window-text">
                   <h2>{{item.title}}</h2>
-                  <p>{{item.text}}</p>
+                  <p class="ellipsis-multilines">{{item.text}}</p>
                 </div>
-              </div>
+              </v-card>
             </v-window-item>
           </v-window>
           <v-card-actions>
-            <v-btn icon="mdi-chevron-left" @click="prev"></v-btn>
-            <v-item-group v-model="windowCurr">
-              <v-item
-                  v-for="n in mainCarousel.length"
-                  :key="`btn-${n}`"
-                  v-slot="{ isSelected, toggle }"
-                  :value="n-1"
-              >
+            <div class="window-action">
+              <v-btn icon="mdi-chevron-left" @click="prev"></v-btn>
+              <v-item-group v-model="windowCurr">
+                <v-item
+                    v-for="n in mainCarousel.length"
+                    :key="`btn-${n}`"
+                    v-slot="{ isSelected, toggle }"
+                    :value="n-1"
+                >
                   <v-icon
                       :icon="isSelected ? 'mdi-circle' : 'mdi-circle-outline'"
                       size="10"
-                      class="pa-2"
+                      class="pa-2 pb-3"
                       @click="toggle"
                   ></v-icon>
-              </v-item>
-            </v-item-group>
-            <v-btn icon="mdi-chevron-right"  @click="next"></v-btn>
+                </v-item>
+              </v-item-group>
+              <v-btn icon="mdi-chevron-right" @click="next" class="ma-0"></v-btn>
+            </div>
           </v-card-actions>
         </div>
 
@@ -64,6 +72,7 @@
                 :key="item.title"
                 :items="searchList"
                 :title="item.title"
+                link="/"
                 class="service-list"
             >
               <template v-slot:prepend>
@@ -77,12 +86,14 @@
 
     <div class="container">
       <div class=" wrapper-2">
-        <div class="search-item">
-          <div class="search-section">
-            <v-card height="165">
+        <div>
+          <div class="search-item">
+            <v-card class="search-card" elevation="0">
+              <div>
+                <p>Поиск по услугам и ведомствам</p>
+              </div>
               <v-autocomplete
                   @keyup="getSearch($event.target.value)"
-                  label="Поиск по услугам и ведомствам"
                   menu-icon=""
                   append-inner-icon="mdi-magnify"
                   auto-select-first
@@ -91,7 +102,7 @@
             </v-card>
           </div>
 
-          <section class="slider">
+          <section>
             <h2 class="section-title">Популярные категории электронных услуг</h2>
             <div class="popular-category">
               <v-card
@@ -99,30 +110,35 @@
                   class="card-prop popular-category-card"
                   v-for="item in serviceCategories"
                   :key="item"
-              ><div class="card-icon-prop">
+              >
+                <div class="card-icon-prop">
                   <v-img :src=item.src :width="57" aspect-ratio="1/1"></v-img>
                 </div>
                 <div>
-                  <v-card-title>{{ item.title }}</v-card-title>
+                  <h2>{{ item.title }}</h2>
                 </div>
                 <v-spacer/>
                   <v-icon icon="mdi-chevron-right"></v-icon>
               </v-card>
             </div>
             <div class="category-btn">
-              <v-btn variant="outlined">Все электронные услуги</v-btn>
+              <v-btn
+                  variant="outlined"
+                  class="category-btn-text"
+              >Все электронные услуги</v-btn>
             </div>
-
           </section>
 
-          <v-slide-group
+
+
+         <v-slide-group
               show-arrows
               class="slider"
           >
             <v-slide-group-item
                 v-for="item in serviceSlides"
                 :key="item"
-                v-slot="{toggle }"
+                v-slot="{toggle}"
             >
               <v-card
                   class="slide"
@@ -146,7 +162,11 @@
           <div class="news">
             <h2 class="section-title">Новости портала госуслуг Республики Крым</h2>
             <v-spacer/>
-            <v-btn color="#0d4cd3" class="section-title" variant="text">все новости</v-btn>
+            <v-btn
+                class="section-btn hidden"
+                color="#0d4cd3"
+                variant="text"
+            >все новости</v-btn>
           </div>
           <div class="news">
             <v-card
@@ -171,6 +191,11 @@
               </div>
             </v-card>
           </div>
+          <v-btn
+              class="category-btn-text narrow-media"
+              color="#0d4cd3"
+              variant="text"
+          >Все новости</v-btn>
         </article>
         </div>
       </div>
@@ -284,13 +309,23 @@ export default {
   border-radius: 10px;
 }
 
-.v-card-title {
+.card-icon-prop {
+  padding-right: 16px;
+}
+
+.ellipsis-multilines {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+h2 {
   font-size: 18px;
-  padding: 0 0 0 40px;
+  font-weight: 400;
 }
 .v-card-text {
   font-size: 12px;
-  padding: 0 0 0 40px;
 }
 
 .v-list {
@@ -328,7 +363,7 @@ export default {
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1.4fr;
+  grid-template-rows: 1fr 1.5fr;
   width: 1248px;
 }
 
@@ -358,26 +393,31 @@ export default {
 
 .window{
   display: flex;
+  min-height: 120px;
   align-items: center;
-  min-height: 130px;
+  color: white;
+  background: inherit;
+  padding: 0;
 }
 
-.window > * {
-  margin: 20px 0px 0px 0px;
-}
 
+.window-text{
+  padding: 0 0 0px 32px;
+}
 .window-text h2{
-  font-size: 20px;
-  padding: 0 0 16px 32px;
+  font-size: 18px;
+  font-weight: 500;
+  padding-bottom: 16px;
 }
 
 .window-text p{
   font-size: 14px;
-  padding: 0 0 0px 32px;
+  text-overflow: ellipsis;
 }
 
 .wrapper-2 {
   display: grid;
+  position: initial;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   width: 1248px;
 }
@@ -388,14 +428,9 @@ export default {
 
 .search-item {
   grid-column: 1 / 13;
-}
-
-.search-section {
-  justify-content: center;
-  align-items: center;
   position: relative;
-  margin: 0 30px 0 30px;
   top: -40px;
+  margin: 0 30px 0 30px;
 }
 
 .service-list{
@@ -405,38 +440,51 @@ export default {
 .card-prop {
   display: flex;
   align-items: center;
-  box-shadow: 0 0 20px #e8e8e8;
-}
-
-.card-prop .v-card-title {
-  padding-left: 20px;
+  box-shadow: 0 5px 10px #e1ecf8 !important;
 }
 
 .menu-card {
   display: flex;
   align-items: center;
-  padding: 25px;
+  justify-content: space-between;
 }
 
-.menu-card-text .v-card-title {
+.menu-card-icon {
+  display: flex;
+  align-items: center;
+}
+
+.menu-card-text {
+  display: block;
+}
+
+.menu-card h2 {
   font-weight: 500;
+  font-size: 18px;
   padding-bottom: 10px;
 }
 
-.menu-card-text .v-card-text {
+.menu-card p {
   font-weight: 200;
   font-size: 14px;
-  padding-bottom: 10px;
 }
 
-.menu-card-text > *{
-  padding-left: 40px;
+.window-action {
+  display: flex;
+  align-items: center;
 }
-
 .search-section > .v-card {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 24px;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.search-card {
+  display: block !important;
+  height: 155px;
+  box-shadow: 0 2px 4px #e1ecf8 !important;
 }
 
 .popular-category {
@@ -447,6 +495,7 @@ export default {
 .popular-category-card{
   margin: 15px;
   min-width: 150px;
+  padding-right: 18px;
 }
 
 .category-btn {
@@ -455,11 +504,15 @@ export default {
   margin: 40px;
 }
 
-.category-btn > * {
+.category-btn-text {
+  display: flex;
+  align-items: center;
+  text-transform: unset;
+  font-weight: 300;
+  font-size: 16px;
   color: #2341ce;
-  align-content: center;
   border-radius: 10px;
-  padding: 24px;
+  padding: 24px 40px;
 }
 
 .slider {
@@ -477,17 +530,22 @@ export default {
   margin: 15px;
 }
 
-.v-slide-group__prev {
+.v-slide-group__prev, .v-slide-group__next{
   position: absolute;
-  left: calc((100vw - 1350px)/2);
-  margin-top: 100px;
+  box-shadow: 0 0px 10px #e1ecf8;
+  border-radius: 50px;
+  margin-top: 85px;
+  height: 50px;
+  z-index: 1;
 }
 
-.v-slide-group__next {
-  position: absolute;
-  right: calc((100vw - 1350px)/2);
-  margin-top: 100px;
+.v-slide-group__prev {
+  left: calc((100vw - 1350px)/2);
 }
+.v-slide-group__next {
+  right: calc((100vw - 1350px)/2);
+}
+
 
 .slide > div *:first-child{
   padding-right: 16px;
@@ -497,7 +555,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-
+  margin: 40px 0;
 }
 
 .news-title {
@@ -531,36 +589,124 @@ export default {
 }
 
 .section-title {
-  margin: 40px 15px 40px 15px;
+  margin: 0px 15px;
   font-weight: 400;
+  font-size: 24px;
 }
 
-@media screen and (max-width: 700px){
- .wrapper{
-   grid-template-columns: 1fr;
-   grid-template-rows: 1fr 1fr 1fr;
- }
+.section-btn {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.narrow-media {
+  display: none;
+}
+
+@media screen and (max-width: 1360px) {
+  .hidden {
+    display: none;
+  }
+
+  .narrow-media {
+    display: block;
+  }
+
+  .v-main {
+    --v-layout-top: 64px !important;
+  }
+
+  .top-container {
+    background-color: #3e73f2;
+    background: linear-gradient(0deg, rgba(84, 140, 246, 1) 0%, rgba(39, 90, 239, 1) 100%);
+  }
+
+  .wrapper {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1.5fr;
+  }
 
   .item-1 {
     grid-column: auto;
+    margin: 24px 15px 30px;
     grid-row: 1/2;
   }
 
   .item-2 {
     grid-column: auto;
+    margin: 0 15px 15px;
     grid-row: 2/3;
   }
 
+  .v-card-actions {
+    align-content: end;
+  }
+
+  .window {
+    align-items: start;
+  }
+
+  .window-text {
+    padding: 0 0 0 10px;
+  }
+
+  .window-action {
+    margin: auto;
+  }
+
   .item-3 {
-    grid-column: auto;
-    grid-row: 3/4;
+    display: none;
+  }
+
+  .wrapper-2 {
+    position: relative;
+    top: -60px;
+  }
+
+  .search-item {
+    position: initial;
+    margin: 0 15px;
+  }
+
+  .section-title {
+    margin: 15px;
+    font-weight: 400;
+    font-size: 24px;
+  }
+
+  .v-slide-group__prev {
+    display: none;
+  }
+
+  .v-slide-group__next {
+    display: none;
   }
 
   .popular-category {
     grid-template-columns: 1fr;
   }
+
+  .search-card {
+    display: block !important;
+    height: 130px;
+    padding-top: 0px !important;
+  }
+
+  .search-card p {
+    padding: 10px 0 10px 0;
+  }
+
+  .category-btn {
+    margin: 20px;
+  }
+
+  .section-btn {
+
+  }
+
+  .news, .slider {
+    margin: 0;
+  }
 }
-
-
 
 </style>
