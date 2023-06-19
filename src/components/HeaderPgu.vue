@@ -40,7 +40,7 @@
             @click="drawer = !drawer"
             icon="mdi-format-align-left"
         />
-        <v-img src="../assets/pgu-logo.png" :max-width="160"></v-img>
+        <v-img src="../assets/pgu-logo.png" :max-width="160" alt="logo"></v-img>
       </div>
       <div class="btn-group">
         <v-btn class="media" icon="mdi-magnify" style="size: 30px"></v-btn>

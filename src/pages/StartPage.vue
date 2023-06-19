@@ -21,48 +21,53 @@
         </div>
 
         <div class="item-2">
-          <v-divider :thickness="1" class="border-opacity-100" color="#94b1f3"></v-divider>
-          <v-window v-model="windowCurr">
-            <v-window-item
-                v-for="item in mainCarousel"
-                :key="`card-${item}`"
-            >
-              <v-card
-                elevation="0"
-                to="/"
-                class="window"
-              >
-                <div>
-                  <v-img :src="item.src" width="60"></v-img>
-                </div>
-                <div class="window-text">
-                  <h2>{{item.title}}</h2>
-                  <p class="ellipsis-multilines">{{item.text}}</p>
-                </div>
-              </v-card>
-            </v-window-item>
-          </v-window>
-          <v-card-actions>
-            <div class="window-action">
-              <v-btn icon="mdi-chevron-left" @click="prev"></v-btn>
-              <v-item-group v-model="windowCurr">
-                <v-item
-                    v-for="n in mainCarousel.length"
-                    :key="`btn-${n}`"
-                    v-slot="{ isSelected, toggle }"
-                    :value="n-1"
+          <v-divider :thickness="1" class="border-opacity-100" color="white"></v-divider>
+          <div class="window-wrapper">
+            <div>
+              <v-window v-model="windowCurr">
+                <v-window-item
+                    v-for="item in mainCarousel"
+                    :key="`card-${item}`"
                 >
-                  <v-icon
-                      :icon="isSelected ? 'mdi-circle' : 'mdi-circle-outline'"
-                      size="10"
-                      class="pa-2 pb-3"
-                      @click="toggle"
-                  ></v-icon>
-                </v-item>
-              </v-item-group>
-              <v-btn icon="mdi-chevron-right" @click="next" class="ma-0"></v-btn>
+                  <v-card
+                      elevation="0"
+                      to="/"
+                      class="window"
+                  >
+                    <div>
+                      <v-img :src="item.src" class="pt-1" width="60"></v-img>
+                    </div>
+                    <div class="window-text">
+                      <h2>{{ item.title }}</h2>
+                      <p class="ellipsis-multilines">{{ item.text }}</p>
+                    </div>
+
+                  </v-card>
+                </v-window-item>
+              </v-window>
+              <v-card-actions>
+                <div class="window-action">
+                  <v-btn icon="mdi-chevron-left" @click="prev"></v-btn>
+                  <v-item-group v-model="windowCurr">
+                    <v-item
+                        v-for="n in mainCarousel.length"
+                        :key="`btn-${n}`"
+                        v-slot="{ isSelected, toggle }"
+                        :value="n-1"
+                    >
+                      <v-icon
+                          :icon="isSelected ? 'mdi-circle' : 'mdi-circle-outline'"
+                          size="10"
+                          class="pa-2 pb-3"
+                          @click="toggle"
+                      ></v-icon>
+                    </v-item>
+                  </v-item-group>
+                  <v-btn icon="mdi-chevron-right" @click="next" class="ma-0"></v-btn>
+                </div>
+              </v-card-actions>
             </div>
-          </v-card-actions>
+          </div>
         </div>
 
         <div class="item-3">
@@ -72,7 +77,7 @@
                 :key="item.title"
                 :items="searchList"
                 :title="item.title"
-                link="/"
+                to="/"
                 class="service-list"
             >
               <template v-slot:prepend>
@@ -96,8 +101,8 @@
                   @keyup="getSearch($event.target.value)"
                   menu-icon=""
                   append-inner-icon="mdi-magnify"
-                  auto-select-first
-                  :items="searchList"
+                  style="color: #033cfc;"
+                  :item="searchList"
               ></v-autocomplete>
             </v-card>
           </div>
@@ -118,23 +123,20 @@
                   <h2>{{ item.title }}</h2>
                 </div>
                 <v-spacer/>
-                  <v-icon icon="mdi-chevron-right"></v-icon>
+                <v-icon icon="mdi-chevron-right"></v-icon>
               </v-card>
             </div>
             <div class="category-btn">
               <v-btn
                   variant="outlined"
                   class="category-btn-text"
-              >Все электронные услуги</v-btn>
+                  text="Все электронные услуги"
+              ></v-btn>
             </div>
           </section>
 
 
-
-         <v-slide-group
-              show-arrows
-              class="slider"
-          >
+          <v-slide-group class="slider">
             <v-slide-group-item
                 v-for="item in serviceSlides"
                 :key="item"
@@ -157,46 +159,50 @@
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
-
           <article>
-          <div class="news">
-            <h2 class="section-title">Новости портала госуслуг Республики Крым</h2>
-            <v-spacer/>
-            <v-btn
-                class="section-btn hidden"
-                color="#0d4cd3"
-                variant="text"
-            >все новости</v-btn>
-          </div>
-          <div class="news">
-            <v-card
-                v-for="item in news"
-                :key="item"
-                class="news-card"
-                elevation="0"
-                min-width="285"
-                to="/"
-            >
-              <v-img
-                  :src=item.src
-              />
-              <div >
-                <div class="news-card-text">
-                  <h2>{{ item.title }}</h2>
-                </div>
-                <div class="news-card-text">
-                  <p>{{ item.date }}</p>
-                </div>
+            <div class="news">
+              <h2 class="section-title">Новости портала госуслуг Республики Крым</h2>
+              <v-spacer/>
+              <v-btn
+                  class="section-btn hidden"
+                  color="#0d4cd3"
+                  variant="text"
+              >все новости
+              </v-btn>
+            </div>
+            <div class="scroll-card news">
+              <v-card
+                  v-for="item in news"
+                  :key="item"
+                  class="news-card"
+                  elevation="0"
+                  min-width="285"
+                  to="/"
+              >
+                <v-img
+                    :src=item.src
+                />
+                <div>
+                  <div class="news-card-text">
+                    <h2>{{ item.title }}</h2>
+                  </div>
+                  <div class="news-card-text">
+                    <p>{{ item.date }}</p>
+                  </div>
 
-              </div>
-            </v-card>
-          </div>
-          <v-btn
-              class="category-btn-text narrow-media"
-              color="#0d4cd3"
-              variant="text"
-          >Все новости</v-btn>
-        </article>
+                </div>
+              </v-card>
+            </div>
+            <div class="narrow-media">
+              <v-btn
+                  class="category-btn-text"
+                  style="padding: 16px"
+                  color="#0d4cd3"
+                  variant="text"
+              >Все новости
+              </v-btn>
+            </div>
+          </article>
         </div>
       </div>
     </div>
@@ -214,46 +220,113 @@ export default {
       searchList: "",
       serviceIcon: require("../assets/icon1.png"),
       mainList: [
-        {title:"Выбор услуги", src: require("../assets/book-icon.svg")},
-        {title:"Жизненные ситуации", src: require("../assets/home-accept-icon.svg")},
-        {title:"Категории услуг", src: require("../assets/category-icon.svg")},
-        {title:"Ведомства",src: require("../assets/department-icon.svg")}
+        {title: "Выбор услуги", src: require("../assets/book-icon.svg")},
+        {title: "Жизненные ситуации", src: require("../assets/home-accept-icon.svg")},
+        {title: "Категории услуг", src: require("../assets/category-icon.svg")},
+        {title: "Ведомства", src: require("../assets/department-icon.svg")}
       ],
       serviceCategories: [
-        {title:"Пенсия, пособия и льготы", src: require("../assets/duty.svg")},
-        {title:"Семья и дети", src: require("../assets/fine.svg")},
-        {title:"Лицензии, справки аккредитации", src: require("../assets/jud.svg")},
-        {title:"Транспорт и вождение", src: require("../assets/tax.svg")},
-        {title:"Квартира, строительство и земля", src: require("../assets/file.svg")},
-        {title:"Информация, связь и реклама", src: require("../assets/uin.svg")}
+        {title: "Пенсия, пособия и льготы", src: require("../assets/duty.svg")},
+        {title: "Семья и дети", src: require("../assets/fine.svg")},
+        {title: "Лицензии, справки аккредитации", src: require("../assets/jud.svg")},
+        {title: "Транспорт и вождение", src: require("../assets/tax.svg")},
+        {title: "Квартира, строительство и земля", src: require("../assets/file.svg")},
+        {title: "Информация, связь и реклама", src: require("../assets/uin.svg")}
       ],
       mainCarousel: [
-        {title: "Поделитесь своим мнением о лечении COVID-19", text: "Предложение медицинских работников по организации оказания медицинской помощи пациентам с COVID-19", src: require("../assets/medchat.png")},
-        {title: "Как получить выплату на ребенка от 3 до 7 лет включительно", text: "Узнайте кому положена выплата", src: require("../assets/child.png")},
-        {title: "Бесплатное горячее питание для учащихся младших классов", text: "Оценить качество предоставления бесплатного горячего питания для обучающихся по образовательным программам начального общего образования", src: require("../assets/hotfood.png")},
-        {title: "Страховые гарантии медикам и их близким", text: "Как получить единовременную выплату за смерть или вред здоровью", src: require("../assets/medhandshake.png")},
-        {title: "Как медикам пожаловаться на отсутствие доплат", text: "Заполните форму жалобы в Минздрав, чтобы там разобрались", src: require("../assets/rupor.png")},
-        {title: "Помощь при кризисной ситуации в семье", text: "Что делать и куда обращаться", src: require("../assets/motherhood.png")},
+        {
+          title: "Поделитесь своим мнением о лечении COVID-19",
+          text: "Предложение медицинских работников по организации оказания медицинской помощи пациентам с COVID-19",
+          src: require("../assets/medchat.png")
+        },
+        {
+          title: "Как получить выплату на ребенка от 3 до 7 лет включительно",
+          text: "Узнайте кому положена выплата",
+          src: require("../assets/child.png")
+        },
+        {
+          title: "Бесплатное горячее питание для учащихся младших классов",
+          text: "Оценить качество предоставления бесплатного горячего питания для обучающихся по образовательным программам начального общего образования",
+          src: require("../assets/hotfood.png")
+        },
+        {
+          title: "Страховые гарантии медикам и их близким",
+          text: "Как получить единовременную выплату за смерть или вред здоровью",
+          src: require("../assets/medhandshake.png")
+        },
+        {
+          title: "Как медикам пожаловаться на отсутствие доплат",
+          text: "Заполните форму жалобы в Минздрав, чтобы там разобрались",
+          src: require("../assets/rupor.png")
+        },
+        {
+          title: "Помощь при кризисной ситуации в семье",
+          text: "Что делать и куда обращаться",
+          src: require("../assets/motherhood.png")
+        },
       ],
       serviceSlides: [
-        {title:"Запись в детский сад",
+        {
+          title: "Запись в детский сад",
           src: require("../assets/child.svg"),
-          color1:"#9c53fb",
-          color2:"#67baaa"
+          color1: "#9c53fb",
+          color2: "#67baaa"
         },
-        {title:"Проверка очереди в детский сад", src: require("../assets/slide-icon1.svg"), color1:"#70d1ba", color2:"#5cc2ae"},
-        {title:"Сервисы ФССП", src: require("../assets/scales.svg"), color1:"#5084ff", color2:"#9a54fc"},
-        {title:"Процедура внесудебного банкротства гражданина", src: require("../assets/carousel4.svg"), color1:"#9c53fb", color2:"#67baaa"},
-        {title:"Проверить налоговую задолженность", src: require("../assets/carousel5.svg"), color1:"#70d1ba", color2:"#5cc2ae"},
-        {title:"Информация о мерах поддержки в период коронавируса", src: require("../assets/carousel6.svg"), color1:"#5084ff", color2:"#9a54fc"},
-        {title:"Услуги и сервисы на Едином портале госуслуг", src: require("../assets/carousel7.svg"), color1:"#9c53fb", color2:"#67baaa"},
-        {title:"Обжалуйте решение контрольного органа", src: require("../assets/carousel8.svg"), color1:"#70d1ba", color2:"#5cc2ae"},
+        {
+          title: "Проверка очереди в детский сад",
+          src: require("../assets/slide-icon1.svg"),
+          color1: "#70d1ba",
+          color2: "#5cc2ae"
+        },
+        {title: "Сервисы ФССП", src: require("../assets/scales.svg"), color1: "#5084ff", color2: "#9a54fc"},
+        {
+          title: "Процедура внесудебного банкротства гражданина",
+          src: require("../assets/carousel4.svg"),
+          color1: "#9c53fb",
+          color2: "#67baaa"
+        },
+        {
+          title: "Проверить налоговую задолженность",
+          src: require("../assets/carousel5.svg"),
+          color1: "#70d1ba",
+          color2: "#5cc2ae"
+        },
+        {
+          title: "Информация о мерах поддержки в период коронавируса",
+          src: require("../assets/carousel6.svg"),
+          color1: "#5084ff",
+          color2: "#9a54fc"
+        },
+        {
+          title: "Услуги и сервисы на Едином портале госуслуг",
+          src: require("../assets/carousel7.svg"),
+          color1: "#9c53fb",
+          color2: "#67baaa"
+        },
+        {
+          title: "Обжалуйте решение контрольного органа",
+          src: require("../assets/carousel8.svg"),
+          color1: "#70d1ba",
+          color2: "#5cc2ae"
+        },
       ],
       news: [
-        {title:"Отключение Instagram в России", date:"24 мая 2022", src: require('../assets/news-card1.png')},
-        {title:"В один клик: как решать жилищные вопросы, не выходя из дома", date:"24 мая 2022", src: require('../assets/news-card2.png')},
-        {title:"Что делать при лёгком течении коронавируса или ОРВИ", date:"24 мая 2022", src: require('../assets/news-card3.png')},
-        {title:"Выплата на детей от 3 до 7 лет: вопросы и ответы", date:"24 мая 2022", src: require('../assets/news-card4.png')},
+        {title: "Отключение Instagram в России", date: "24 мая 2022", src: require('../assets/news-card1.png')},
+        {
+          title: "В один клик: как решать жилищные вопросы, не выходя из дома",
+          date: "24 мая 2022",
+          src: require('../assets/news-card2.png')
+        },
+        {
+          title: "Что делать при лёгком течении коронавируса или ОРВИ",
+          date: "24 мая 2022",
+          src: require('../assets/news-card3.png')
+        },
+        {
+          title: "Выплата на детей от 3 до 7 лет: вопросы и ответы",
+          date: "24 мая 2022",
+          src: require('../assets/news-card4.png')
+        },
       ],
       windowN: 3,
       windowCurr: 0,
@@ -263,12 +336,12 @@ export default {
     getSearch(text) {
       request.getSearchData(text)
           .then(response => {
-             console.log('response.data:', response.data);
-             this.searchList = response.data.favour['result']
+            console.log('response.data:', response.data);
+            this.searchList = response.data.favour['result']
 
           })
-          .catch(e => console.warn('CATCH:',e.name, e.message))
-          .finally(()=> console.log('request done', this.searchList));
+          .catch(e => console.warn('CATCH:', e.name, e.message))
+          .finally(() => console.log('request done', this.searchList));
     },
     getGradient(color1, color2) {
       return "background: linear-gradient(130deg," + color1 + " 0%," + color2 + " 80%)"
@@ -291,8 +364,8 @@ export default {
 <style>
 
 
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
 .v-main {
   font-family: 'Roboto', sans-serif;
   background-color: #fafcff;
@@ -316,7 +389,7 @@ export default {
 .ellipsis-multilines {
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 
@@ -324,6 +397,7 @@ h2 {
   font-size: 18px;
   font-weight: 400;
 }
+
 .v-card-text {
   font-size: 12px;
 }
@@ -338,7 +412,7 @@ h2 {
   font-size: 20px;
 }
 
-.v-field__outline{
+.v-field__outline {
   background-color: inherit;
   display: none;
 }
@@ -347,12 +421,12 @@ h2 {
   border-radius: 5px;
 }
 
-.top-container{
+.top-container {
   display: flex;
   justify-content: center;
   width: 100%;
   background-color: #3e73f2;
-  background: linear-gradient(90deg, rgba(84,140,246,1) 0%, rgba(39,90,239,1) 100%);
+  background: linear-gradient(90deg, rgba(84, 140, 246, 1) 0%, rgba(39, 90, 239, 1) 100%);
 }
 
 .container {
@@ -391,7 +465,7 @@ h2 {
   color: white;
 }
 
-.window{
+.window {
   display: flex;
   min-height: 120px;
   align-items: center;
@@ -401,16 +475,17 @@ h2 {
 }
 
 
-.window-text{
+.window-text {
   padding: 0 0 0px 32px;
 }
-.window-text h2{
+
+.window-text h2 {
   font-size: 18px;
   font-weight: 500;
   padding-bottom: 16px;
 }
 
-.window-text p{
+.window-text p {
   font-size: 14px;
   text-overflow: ellipsis;
 }
@@ -433,8 +508,12 @@ h2 {
   margin: 0 30px 0 30px;
 }
 
-.service-list{
+.service-list {
   margin: 15px 0 15px 0;
+}
+
+.v-list-item__overlay {
+  background: none !important;
 }
 
 .card-prop {
@@ -473,6 +552,7 @@ h2 {
   display: flex;
   align-items: center;
 }
+
 .search-section > .v-card {
   display: flex;
   align-items: center;
@@ -492,7 +572,7 @@ h2 {
   grid-template-columns: 1fr 1fr;
 }
 
-.popular-category-card{
+.popular-category-card {
   margin: 15px;
   min-width: 150px;
   padding-right: 18px;
@@ -505,8 +585,7 @@ h2 {
 }
 
 .category-btn-text {
-  display: flex;
-  align-items: center;
+  align-content: center;
   text-transform: unset;
   font-weight: 300;
   font-size: 16px;
@@ -530,7 +609,7 @@ h2 {
   margin: 15px;
 }
 
-.v-slide-group__prev, .v-slide-group__next{
+.v-slide-group__prev, .v-slide-group__next {
   position: absolute;
   box-shadow: 0 0px 10px #e1ecf8;
   border-radius: 50px;
@@ -540,21 +619,21 @@ h2 {
 }
 
 .v-slide-group__prev {
-  left: calc((100vw - 1350px)/2);
+  left: calc((100vw - 1350px) / 2);
 }
+
 .v-slide-group__next {
-  right: calc((100vw - 1350px)/2);
+  right: calc((100vw - 1350px) / 2);
 }
 
 
-.slide > div *:first-child{
+.slide > div *:first-child {
   padding-right: 16px;
 }
 
 .news {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
   margin: 40px 0;
 }
 
@@ -565,7 +644,7 @@ h2 {
 .news-card {
   max-width: 282px;
   min-height: 480px;
-  padding: 0;
+  padding: 0 8px;
   background-color: inherit;
 }
 
@@ -578,7 +657,7 @@ h2 {
   font-size: 14px;
 }
 
-.news-card-text h2{
+.news-card-text h2 {
   font-weight: 400;
   font-size: 18px;
 }
@@ -599,6 +678,12 @@ h2 {
   font-size: 14px;
 }
 
+.scroll-card {
+  overflow: auto;
+  scrollbar-width: none;
+
+}
+
 .narrow-media {
   display: none;
 }
@@ -607,6 +692,14 @@ h2 {
   .hidden {
     display: none;
   }
+
+  .ellipsis-multilines {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
 
   .narrow-media {
     display: block;
@@ -623,7 +716,7 @@ h2 {
 
   .wrapper {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1.5fr;
+    grid-template-rows: auto;
   }
 
   .item-1 {
@@ -634,6 +727,7 @@ h2 {
 
   .item-2 {
     grid-column: auto;
+    min-height: 300px;
     margin: 0 15px 15px;
     grid-row: 2/3;
   }
@@ -642,9 +736,16 @@ h2 {
     align-content: end;
   }
 
-  .window {
-    align-items: start;
+  .window-wrapper {
+    padding: 16px 0;
   }
+
+  .window {
+    padding-right: 16px;
+    min-height: 150px;
+    align-items: center !important;
+  }
+
 
   .window-text {
     padding: 0 0 0 10px;
@@ -707,6 +808,19 @@ h2 {
   .news, .slider {
     margin: 0;
   }
+
+  .news-card {
+    padding: 0 16px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .window {
+    padding-right: 16px;
+    min-height: 170px;
+    align-items: start !important;
+  }
+
 }
 
 </style>
