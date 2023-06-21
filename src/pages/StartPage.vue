@@ -35,7 +35,7 @@
                       class="window"
                   >
                     <div>
-                      <v-img :src="item.src" class="pt-1" width="60"></v-img>
+                      <v-img :src="item.src" width="60"></v-img>
                     </div>
                     <div class="window-text">
                       <h2>{{ item.title }}</h2>
@@ -48,7 +48,10 @@
               <v-card-actions>
                 <div class="window-action">
                   <v-btn icon="mdi-chevron-left" @click="prev"></v-btn>
-                  <v-item-group v-model="windowCurr">
+                  <v-item-group
+                      v-model="windowCurr"
+                      mandatory
+                  >
                     <v-item
                         v-for="n in mainCarousel.length"
                         :key="`btn-${n}`"
@@ -742,10 +745,10 @@ h2 {
 
   .window {
     padding-right: 16px;
-    min-height: 150px;
-    align-items: center !important;
-  }
+    min-height: 160px;
+    margin-top: auto;
 
+  }
 
   .window-text {
     padding: 0 0 0 10px;
@@ -814,13 +817,5 @@ h2 {
   }
 }
 
-@media screen and (max-width: 500px) {
-  .window {
-    padding-right: 16px;
-    min-height: 170px;
-    align-items: start !important;
-  }
-
-}
 
 </style>

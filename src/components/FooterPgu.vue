@@ -63,6 +63,10 @@ export default {
   grid-column:  1 / 6;
 }
 
+.left-footer > * {
+  margin: 10px;
+}
+
 .center-footer{
   grid-column: 6 / 10;
 }
